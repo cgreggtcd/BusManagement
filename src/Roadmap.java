@@ -46,4 +46,8 @@ public class Roadmap {
         return true;
     }
 
+    public Iterable<WeightedDirectedEdge> adj(int v){
+        return adj.get(v);
+    }
+
 }
