@@ -50,4 +50,12 @@ public class Roadmap {
         return adj.get(v);
     }
 
+    public Iterable<WeightedDirectedEdge> edges() {
+        return edges;
+    }
+
+    public int[] vertices() {
+        return vertices;
+    }
+
 }
