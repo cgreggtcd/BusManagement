@@ -37,9 +37,11 @@ public class Roadmap {
         if(!adj.containsKey(e.from())|| !adj.containsKey(e.to())){
             return false;
         }
-        ArrayList<WeightedDirectedEdge> adjacent = adj.computeIfAbsent(e.from(), k -> new ArrayList<>());
-
-        adjacent.add(e);
+        if(adj.get(e.from())==null){
+            ArrayList<WeightedDirectedEdge> adjacentEdges = new ArrayList<>();
+            adj.put(e.from(), adjacentEdges);
+        }
+        (adj.get(e.from())).add(e);
         edges.add(e);
         E++;
 
