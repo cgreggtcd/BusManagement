@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class BusManagement {
 
@@ -12,7 +11,7 @@ public class BusManagement {
         System.out.println(result.toString());
 
         ArrivalTimes arrivalTimes = new ArrivalTimes();
-        ArrayList<TripSectionDetails> trips = arrivalTimes.searchArrivalTime("5:25:00");
+        ArrayList<TripSectionDetails> trips = arrivalTimes.searchArrivalTime("5:30:59");
         System.out.println(trips);
     }
 }

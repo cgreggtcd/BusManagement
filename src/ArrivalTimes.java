@@ -18,11 +18,12 @@ public class ArrivalTimes {
             String[] parts;
             while((line = reader.readLine()) != null){
                 parts = line.trim().split(",");
+                parts[1] = parts[1].trim();
                 String[] partsOfArrivalTime = parts[1].trim().split(":");
                 if(!(Integer.parseInt(partsOfArrivalTime[0]) > 23 || Integer.parseInt(partsOfArrivalTime[1]) > 59
                         || Integer.parseInt(partsOfArrivalTime[2]) > 59)) {
                     TripSectionDetails trip = new TripSectionDetails(Integer.parseInt(parts[0]), Integer.parseInt(parts[3]),
-                            Integer.parseInt(parts[4]), parts[1], parts[2], Double.parseDouble(parts[7]));
+                            Integer.parseInt(parts[4]), parts[1], parts[2], ((parts.length > 8)? Double.parseDouble(parts[8]) : 0.0));
                     if (!arrivalsTree.contains(parts[1])) {
                         ArrayList<TripSectionDetails> temp = new ArrayList<>();
                         temp.add(trip);
@@ -39,6 +40,7 @@ public class ArrivalTimes {
     }
 
     public ArrayList<TripSectionDetails> searchArrivalTime(String time){
+        System.out.println("Searching for "+ time);
         ArrayList<TripSectionDetails> result = arrivalsTree.get(time);
         return (result == null)? new ArrayList<>() : result;
     }
