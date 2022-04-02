@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.AbstractMap;
 import java.util.HashMap;
 
 public class ShortestPathsStore {
@@ -16,13 +17,12 @@ public class ShortestPathsStore {
         stopArraysMap = new HashMap<>();
     }
 
-    public void shortestPathFromTo(int stopFrom, int stopTo){
+    public AbstractMap.SimpleEntry<Double, String> shortestPathFromTo(int stopFrom, int stopTo){
         if(!stopArraysMap.containsKey(stopFrom)){
             ShortestPath shortestPath = new ShortestPath(stopFrom, roadmap);
             EdgeToDistanceToPair edgeToDistanceToPair = new EdgeToDistanceToPair(shortestPath.edgeTo(), shortestPath.distanceTo());
             stopArraysMap.put(stopFrom, edgeToDistanceToPair);
         }
-        System.out.printf("Cost: %.1f\nRoute: ", (stopArraysMap.get(stopFrom)).distanceTo.get(stopTo));
         StringBuilder route = new StringBuilder();
         HashMap<Integer, WeightedDirectedEdge> edgeTo = (stopArraysMap.get(stopFrom)).edgeTo;
         WeightedDirectedEdge edge = edgeTo.get(stopTo);
@@ -31,7 +31,7 @@ public class ShortestPathsStore {
             edge = edgeTo.get(edge.from());
         }
         route.insert(0, edge.from());
-        System.out.println(route);
+        return new AbstractMap.SimpleEntry<>((stopArraysMap.get(stopFrom)).distanceTo.get(stopTo), route.toString());
     }
 
     private Roadmap readInFiles(){

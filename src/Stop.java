@@ -37,6 +37,6 @@ public class Stop {
     }
 
     public String toString() {
-        return String.format("(Stop name: %s, Stop desc: %s, Stop ID: %d, Stop code: %d, Stop latitude/longitude: %.6f, %.6f)", name, desc, id, code, latitude, longitude);
+        return String.format("Stop name: %s, Stop desc: %s, Stop ID: %d, Stop code: %d, Stop latitude/longitude: %.6f, %.6f", name, desc, id, code, latitude, longitude);
     }
 }
