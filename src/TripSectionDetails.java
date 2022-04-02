@@ -45,6 +45,6 @@ public class TripSectionDetails implements Comparable<TripSectionDetails>{
 
     @Override
     public int compareTo(TripSectionDetails o) {
-        return Integer.compare(o.tripId, this.tripId);
+        return Integer.compare(this.tripId, o.tripId);
     }
 }
