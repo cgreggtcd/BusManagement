@@ -1,7 +1,6 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.AbstractMap;
+import java.util.ArrayList;
 
 public class BusSystemManagement extends JFrame {
     private JButton findShortestPathButton;
@@ -29,7 +28,15 @@ public class BusSystemManagement extends JFrame {
     private JLabel shortestPathCostOutput;
     private JPanel shortestPathOutputPane;
     private JList<Stop> busStopSearchResults;
-    private JList<Stop> tripSearchResults;
+    private JList<TripSectionDetails> tripSearchResults;
+    private JPanel shortestPathErrorPanel;
+    private JLabel shortestPathErrorLabel;
+    private JButton errorClose;
+    private JPanel busStopSearchErrorPane;
+    private JScrollPane busStopReturnPanel;
+    private JPanel tripSearchErrorPanel;
+    private JLabel tripSearchErrorLabel;
+    private JScrollPane tripSearchReturnPanel;
 
     ShortestPathsStore shortestPaths;
     BusStopSearch busStopSearch;
@@ -45,22 +52,67 @@ public class BusSystemManagement extends JFrame {
         tripSearch = new ArrivalTimes();
 
         shortestPathOutputPane.setVisible(false);
+        shortestPathErrorPanel.setVisible(false);
+        busStopSearchErrorPane.setVisible(false);
+        tripSearchErrorPanel.setVisible(false);
 
         searchForShortestPathButton.addActionListener(e -> {
-            int busStopFrom = (Integer.parseInt(fromBusStopInput.getText()));
-            int busStopTo = (Integer.parseInt(toBusStopInput.getText()));
-            AbstractMap.SimpleEntry<Double, String> value = shortestPaths.shortestPathFromTo(busStopFrom, busStopTo);
-            shortestPathOutput.setText(value.getValue());
-            shortestPathCostOutput.setText(value.getKey().toString());
-            shortestPathOutputPane.setVisible(true);
+            try {
+                int busStopFrom = (Integer.parseInt(fromBusStopInput.getText()));
+                int busStopTo = (Integer.parseInt(toBusStopInput.getText()));
+                AbstractMap.SimpleEntry<Double, String> value = shortestPaths.shortestPathFromTo(busStopFrom, busStopTo);
+                if(value != null) {
+                    shortestPathOutput.setText(value.getValue());
+                    shortestPathCostOutput.setText(value.getKey().toString());
+                    shortestPathOutputPane.setVisible(true);
+                    shortestPathErrorPanel.setVisible(false);
+                } else {
+                    shortestPathErrorLabel.setText("Either one/both of these stops do not exist, or there is no route between them. Please try again.");
+                    shortestPathErrorPanel.setVisible(true);
+                    shortestPathOutputPane.setVisible(false);
+                }
+            } catch (NumberFormatException exception) {
+                shortestPathErrorLabel.setText("One or both of these stops is not a valid number. Please try again with different input.");
+                shortestPathErrorPanel.setVisible(true);
+                shortestPathOutputPane.setVisible(false);
+            }
         });
         searchButton.addActionListener(e -> {
             String searchText = searchTextField.getText();
-            busStopSearchResults.setListData((Stop[]) busStopSearch.searchString(searchText).toArray());
+            ArrayList<Stop> result1 = busStopSearch.searchString(searchText);
+            Stop[] result = result1.toArray(new Stop[0]);
+            if(result.length != 0) {
+                busStopSearchResults.setListData(result);
+                busStopSearchErrorPane.setVisible(false);
+                busStopReturnPanel.setVisible(true);
+            } else {
+                busStopReturnPanel.setVisible(false);
+                busStopSearchErrorPane.setVisible(true);
+            }
         });
         tripSearchButton.addActionListener(e -> {
             String searchText = tripSearchTextInput.getText();
-            tripSearchResults.setListData((Stop[]) tripSearch.searchArrivalTime(searchText).toArray());
+            if(searchText.charAt(0) == '0'){
+                searchText = searchText.substring(1);
+            }
+            searchText = searchText.toUpperCase();
+            TripSectionDetails[] result = tripSearch.searchArrivalTime(searchText).toArray(new TripSectionDetails[0]);
+            if(result.length > 0) {
+                tripSearchResults.setListData(result);
+                tripSearchErrorPanel.setVisible(false);
+                tripSearchReturnPanel.setVisible(true);
+            } else {
+                if(searchText.matches(".*[a-z].*")){
+                    tripSearchErrorLabel.setText("Invalid input");
+                }else {
+                    tripSearchErrorLabel.setText("No trip arrives at this time.");
+                }
+                tripSearchErrorPanel.setVisible(true);
+                tripSearchReturnPanel.setVisible(false);
+            }
+        });
+        errorClose.addActionListener(e -> {
+            shortestPathErrorPanel.setVisible(false);
         });
     }
 }

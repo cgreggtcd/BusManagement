@@ -7,21 +7,27 @@ import java.util.HashMap;
 
 public class ShortestPathsStore {
     private final Roadmap roadmap;
-    private final HashMap<Integer, EdgeToDistanceToPair> stopArraysMap;
+    private HashMap<Integer, EdgeToDistanceToPair> stopArraysMap;
 
     public ShortestPathsStore(){
         roadmap = readInFiles();
-        if(roadmap == null){
-            System.err.println("Roadmap is null");
+        if(roadmap != null) {
+            roadmap.sortVertices();
+            stopArraysMap = new HashMap<>();
         }
-        stopArraysMap = new HashMap<>();
     }
 
     public AbstractMap.SimpleEntry<Double, String> shortestPathFromTo(int stopFrom, int stopTo){
+        if(!roadmap.containsVertex(stopFrom) || !roadmap.containsVertex(stopTo)){
+            return null;
+        }
         if(!stopArraysMap.containsKey(stopFrom)){
             ShortestPath shortestPath = new ShortestPath(stopFrom, roadmap);
             EdgeToDistanceToPair edgeToDistanceToPair = new EdgeToDistanceToPair(shortestPath.edgeTo(), shortestPath.distanceTo());
             stopArraysMap.put(stopFrom, edgeToDistanceToPair);
+        }
+        if(stopArraysMap.get(stopFrom).distanceTo.get(stopTo) == Double.POSITIVE_INFINITY) {
+            return null;
         }
         StringBuilder route = new StringBuilder();
         HashMap<Integer, WeightedDirectedEdge> edgeTo = (stopArraysMap.get(stopFrom)).edgeTo;

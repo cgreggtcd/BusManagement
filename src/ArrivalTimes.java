@@ -40,7 +40,6 @@ public class ArrivalTimes {
     }
 
     public ArrayList<TripSectionDetails> searchArrivalTime(String time){
-        System.out.println("Searching for "+ time);
         ArrayList<TripSectionDetails> result = arrivalsTree.get(time);
         return (result == null)? new ArrayList<>() : InsertionSort.sort(result);
     }

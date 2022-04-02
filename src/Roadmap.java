@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class Roadmap {
@@ -58,6 +60,15 @@ public class Roadmap {
 
     public int[] vertices() {
         return vertices;
+    }
+
+    public void sortVertices() {
+        Quicksort.quickSort(vertices);
+
+    }
+
+    public boolean containsVertex(int vertex){
+        return (Arrays.binarySearch(vertices, vertex) > -1);
     }
 
 }
