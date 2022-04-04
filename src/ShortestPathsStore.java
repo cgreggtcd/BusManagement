@@ -26,9 +26,6 @@ public class ShortestPathsStore {
             EdgeToDistanceToPair edgeToDistanceToPair = new EdgeToDistanceToPair(shortestPath.edgeTo(), shortestPath.distanceTo());
             stopArraysMap.put(stopFrom, edgeToDistanceToPair);
         }
-        if(stopArraysMap.get(stopFrom).distanceTo.get(stopTo) == Double.POSITIVE_INFINITY) {
-            return null;
-        }
         StringBuilder route = new StringBuilder();
         HashMap<Integer, WeightedDirectedEdge> edgeTo = (stopArraysMap.get(stopFrom)).edgeTo;
         WeightedDirectedEdge edge = edgeTo.get(stopTo);
@@ -38,6 +35,9 @@ public class ShortestPathsStore {
         }
         route.insert(0, edge.from());
         return new AbstractMap.SimpleEntry<>((stopArraysMap.get(stopFrom)).distanceTo.get(stopTo), route.toString());
+    }
+    public boolean hasVertex(int key){
+        return stopArraysMap.containsKey(key);
     }
 
     private Roadmap readInFiles(){

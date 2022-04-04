@@ -62,12 +62,19 @@ public class BusSystemManagement extends JFrame {
                 int busStopTo = (Integer.parseInt(toBusStopInput.getText()));
                 AbstractMap.SimpleEntry<Double, String> value = shortestPaths.shortestPathFromTo(busStopFrom, busStopTo);
                 if(value != null) {
-                    shortestPathOutput.setText(value.getValue());
-                    shortestPathCostOutput.setText(value.getKey().toString());
-                    shortestPathOutputPane.setVisible(true);
-                    shortestPathErrorPanel.setVisible(false);
+                    if(value.getKey() != Double.POSITIVE_INFINITY) {
+                        shortestPathOutput.setText(value.getValue());
+                        shortestPathCostOutput.setText(value.getKey().toString());
+                        shortestPathOutputPane.setVisible(true);
+                        shortestPathErrorPanel.setVisible(false);
+                    } else {
+                        shortestPathErrorLabel.setText("There is no route between these stops.");
+                        shortestPathErrorPanel.setVisible(true);
+                        shortestPathOutputPane.setVisible(false);
+                    }
                 } else {
-                    shortestPathErrorLabel.setText("Either one/both of these stops do not exist, or there is no route between them. Please try again.");
+                    String response = String.format("Stop %d does not exist. Please try again.", ((shortestPaths.hasVertex(busStopFrom))? busStopFrom : busStopTo));
+                    shortestPathErrorLabel.setText(response);
                     shortestPathErrorPanel.setVisible(true);
                     shortestPathOutputPane.setVisible(false);
                 }
