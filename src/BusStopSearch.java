@@ -36,10 +36,18 @@ public class BusStopSearch {
             while((line = reader.readLine()) != null){
                 String[] parts = line.trim().split(",");
                 String name = parts[2];
-                String prefix = name.substring(0,3);
-                if(prefix.equals("WB ") || prefix.equals("NB ") || prefix.equals("SB ") || prefix.equals("EB ")){
+                String prefix = name.substring(0,2);
+                if(prefix.equals("WB") || prefix.equals("NB") || prefix.equals("SB") || prefix.equals("EB")){
                     StringBuilder temp = new StringBuilder(name);
                     temp.delete(0, 3);
+                    temp.append(" ");
+                    temp.append(prefix);
+                    name = temp.toString();
+                }
+                prefix = name.substring(0,8);
+                if(prefix.equals("FLAGSTOP")){
+                    StringBuilder temp = new StringBuilder(name);
+                    temp.delete(0, 9);
                     temp.append(" ");
                     temp.append(prefix);
                     name = temp.toString();

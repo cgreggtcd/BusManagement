@@ -78,7 +78,7 @@ public class BusSystemManagement extends JFrame {
             }
         });
         searchButton.addActionListener(e -> {
-            String searchText = searchTextField.getText();
+            String searchText = searchTextField.getText().toUpperCase();
             ArrayList<Stop> result1 = busStopSearch.searchString(searchText);
             Stop[] result = result1.toArray(new Stop[0]);
             if(result.length != 0) {
