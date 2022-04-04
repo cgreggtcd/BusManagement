@@ -102,8 +102,8 @@ public class BusSystemManagement extends JFrame {
                 tripSearchErrorPanel.setVisible(false);
                 tripSearchReturnPanel.setVisible(true);
             } else {
-                if(searchText.matches(".*[a-z].*")){
-                    tripSearchErrorLabel.setText("Invalid input");
+                if(searchText.matches(".*[^0123456789:].*")){
+                    tripSearchErrorLabel.setText("Invalid input.");
                 }else {
                     tripSearchErrorLabel.setText("No trip arrives at this time.");
                 }
