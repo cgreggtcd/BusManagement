@@ -84,7 +84,7 @@ public class BusSystemManagement extends JFrame {
                         shortestPathOutputPane.setVisible(false);
                     }
                 } else { // If the shortest path is null, it's because one of the stops does not exist
-                    String response = String.format("Stop %d does not exist. Please try again.", ((shortestPaths.hasVertex(busStopFrom))? busStopFrom : busStopTo));
+                    String response = String.format("Stop %d does not exist. Please try again.", ((shortestPaths.hasVertex(busStopFrom))? busStopTo : busStopFrom));
                     shortestPathErrorLabel.setText(response);
                     shortestPathErrorPanel.setVisible(true);
                     shortestPathOutputPane.setVisible(false);

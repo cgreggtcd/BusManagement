@@ -40,11 +40,13 @@ public class ShortestPathsStore {
         StringBuilder route = new StringBuilder();
         HashMap<Integer, WeightedDirectedEdge> edgeTo = (stopArraysMap.get(stopFrom)).edgeTo;
         WeightedDirectedEdge edge = edgeTo.get(stopTo);
-        while(edge.from() != stopFrom){
+        while(edge != null && edge.from() != stopFrom){
             route.insert(0, "->"+edge.to());
             edge = edgeTo.get(edge.from());
         }
-        route.insert(0, edge.from());
+        if (edge != null) {
+            route.insert(0, edge.from());
+        }
 
         return new AbstractMap.SimpleEntry<>((stopArraysMap.get(stopFrom)).distanceTo.get(stopTo), route.toString());
     }
