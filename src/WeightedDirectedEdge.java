@@ -1,3 +1,6 @@
+/*
+    Weighted directed edge class used for Roadmap
+ */
 public class WeightedDirectedEdge {
     final private int v,w;
     final private double weight;

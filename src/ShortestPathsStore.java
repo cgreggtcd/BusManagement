@@ -17,15 +17,26 @@ public class ShortestPathsStore {
         }
     }
 
+    /**
+     * Finds the shortest path from stopFrom to stopTo
+     * @param stopFrom the starting stop for shortest path
+     * @param stopTo the ending stop for shortest path
+     * @return a pair of the weight of the shortest path and a string of the vertices it goes through
+     */
     public AbstractMap.SimpleEntry<Double, String> shortestPathFromTo(int stopFrom, int stopTo){
+        //if either of the stops is not valid, return null
         if(!roadmap.containsVertex(stopFrom) || !roadmap.containsVertex(stopTo)){
             return null;
         }
+
+        // if Dijkstra has not been run for this stopFrom before, run it
         if(!stopArraysMap.containsKey(stopFrom)){
             ShortestPath shortestPath = new ShortestPath(stopFrom, roadmap);
             EdgeToDistanceToPair edgeToDistanceToPair = new EdgeToDistanceToPair(shortestPath.edgeTo(), shortestPath.distanceTo());
             stopArraysMap.put(stopFrom, edgeToDistanceToPair);
         }
+
+        //Construct a list of the vertices in the shortest path
         StringBuilder route = new StringBuilder();
         HashMap<Integer, WeightedDirectedEdge> edgeTo = (stopArraysMap.get(stopFrom)).edgeTo;
         WeightedDirectedEdge edge = edgeTo.get(stopTo);
@@ -34,12 +45,21 @@ public class ShortestPathsStore {
             edge = edgeTo.get(edge.from());
         }
         route.insert(0, edge.from());
+
         return new AbstractMap.SimpleEntry<>((stopArraysMap.get(stopFrom)).distanceTo.get(stopTo), route.toString());
     }
+
+    /**
+     * @param key vertex to check the presence of
+     * @return true if key is present, false otherwise
+     */
     public boolean hasVertex(int key){
         return stopArraysMap.containsKey(key);
     }
 
+    /**
+     * @return Roadmap based on input files
+     */
     private Roadmap readInFiles(){
         try {
             Roadmap roadmap = new Roadmap((int) Files.lines(Paths.get("stops.txt")).count()-1);
@@ -112,6 +132,10 @@ public class ShortestPathsStore {
         }
     }
 
+    /*
+        Class for storing the edgeTo and distanceTo hashmaps which are returned by dijkstra.
+        Included so that the hashmap only needs to be looked up once.
+     */
     private class EdgeToDistanceToPair {
         public HashMap<Integer, WeightedDirectedEdge> edgeTo;
         public HashMap<Integer, Double> distanceTo;

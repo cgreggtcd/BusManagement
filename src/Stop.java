@@ -1,3 +1,10 @@
+/*
+    Class to store stop information. Used in BusStopSearch.
+    Params:
+        id, code: int
+        name, desc: String
+        latitude, longitude: double
+ */
 public class Stop {
     private final int id, code;
     private final String name, desc;
@@ -12,10 +19,6 @@ public class Stop {
         this.longitude = longitude;
     }
 
-    public int getId() {
-        return id;
-    }
-
     public int getCode() {
         return code;
     }
@@ -26,14 +29,6 @@ public class Stop {
 
     public String getDesc() {
         return desc;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
     }
 
     public String toString() {

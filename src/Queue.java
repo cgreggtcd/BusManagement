@@ -1,4 +1,5 @@
 /******************************************************************************
+ *  Base code taken from https://algs4.cs.princeton.edu/21elementary/InsertionX.java.html
  *  Compilation:  javac Queue.java
  *  Execution:    java Queue < input.txt
  *  Dependencies: StdIn.java StdOut.java

@@ -15,14 +15,23 @@ public class ShortestPath {
         dijkstra();
     }
 
+    /**
+     * @return the hash map of the edges to each vertex
+     */
     public HashMap<Integer, WeightedDirectedEdge> edgeTo(){
         return edgeTo;
     }
 
+    /**
+     * @return hashmap of the lengths of the shortest paths to each vertex
+     */
     public HashMap<Integer, Double> distanceTo(){
         return distanceTo;
     }
 
+    /**
+     * Runs Dijkstra's shortest path algorithm on the class' roadmap.
+     */
     private void dijkstra(){
         PriorityQueue<Integer> pq = new PriorityQueue<>(roadmap.V());
         for(Integer vertex : roadmap.vertices()){
@@ -48,6 +57,11 @@ public class ShortestPath {
         }
     }
 
+    /**
+     * Find the vertex with the shortest distanceTo of those in pq.
+     * @param pq Queue of vertices
+     * @return vertex in queue with shortest distanceTo
+     */
     private int findMinVertex(PriorityQueue<Integer> pq){
         int currentMinVertex = -1;
         double currentMinValue = Double.POSITIVE_INFINITY;
@@ -59,7 +73,6 @@ public class ShortestPath {
             }
         }
         return currentMinVertex;
-
     }
 
 }
